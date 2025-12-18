@@ -143,27 +143,38 @@ def animate():
     snowflakes = []
     frame = 0
 
+    # Slower, calmer animation timing
+    FPS_DELAY = 0.2          # overall speed (higher = slower)
+    BLINK_PERIOD = 16        # frames per blink cycle
+    STAR_PERIOD = 24         # frames per star pulse
+    SNOW_SPAWN_RATE = width // 4
+
     try:
         while True:
-            # Snow generation
-            if len(snowflakes) < width // 2:
+            # --- Snow generation (slower & calmer) ---
+            if len(snowflakes) < SNOW_SPAWN_RATE:
                 snowflakes.append((random.randint(0, width - 1), 0, random.choice(SNOW_CHARS)))
 
-            # Snow falling
+            # --- Snow falling (1 line per frame, no jitter) ---
             snowflakes = [(x, y + 1, c) for x, y, c in snowflakes if y + 1 < height]
+
+            blink_state = (frame % BLINK_PERIOD) < (BLINK_PERIOD // 2)
+            star_bright = (frame % STAR_PERIOD) < (STAR_PERIOD // 2)
 
             clear_screen()
             print(draw_scene(
-                blink_state=(frame % 8 < 4),
-                star_bright=(frame % 12 < 6),
+                blink_state=blink_state,
+                star_bright=star_bright,
                 snowflakes=snowflakes,
                 tree_data=tree_data
             ))
 
-            time.sleep(0.1)
+            time.sleep(FPS_DELAY)
             frame += 1
 
     except KeyboardInterrupt:
+        clear_screen()
+        print('\n🎄 Frohe Weihnachten! 🎄\n')
         clear_screen()
         print('\n🎄 Frohe Weihnachten! 🎄\n')
 
