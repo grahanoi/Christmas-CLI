@@ -122,7 +122,7 @@ def draw_scene(blink_state, star_bright, snowflakes, tree_data):
             buffer[y][trunk_x + x] = Colors.YELLOW + '█' + Colors.RESET
 
     # Message
-    message = '❄ Merry Christmas ZHAW ❄'
+    message = 'Merry Christmas ZHAW'
     msg_y = trunk_y + 3
     if msg_y < height:
         start_x = (width - len(message)) // 2
